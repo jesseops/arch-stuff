@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Simple i3lock wrapper
+# Requires:
+# - i3lock
+# - imagemagick
+# - ~/Pictures/.wallpaper directory
+#
+# Potential improvements:
+# - Convert wallpapers directly to PNG & replace original image
+# - Speed up conversion
+# - Check resolution of image against current display rez
+#
+# Author: Jesse Roberts <jesse@jessops.net>
+
+WP_DIR="/home/jesse/Pictures/.wallpaper"
+PNG_DIR="/home/jesse/Pictures/.png-wallpaper"
+TEMP_BG=$(shuf -n1 -e "$WP_DIR/"*)
+
+# i3lock only supports PNGs
+# Quick check to see if our image will work
+if [ "${TEMP_BG: -4}" = ".png" ];
+	then LOCK_BG="$TEMP_BG"
+else
+	# Create directory for PNG post conversion
+	if [ ! -d "$PNG_DIR" ];
+		then mkdir "$PNG_DIR"
+       	fi
+	# Get filename
+	BN=$(basename $TEMP_BG)
+	# New filename
+	LOCK_BG="$PNG_DIR/${BN::-4}.png"
+        # Do conversion	
+	convert "$TEMP_BG" "$LOCK_BG"
+fi
+
+
+if [ ! -f "$LOCK_BG" ];
+	# Only log, fail back to simple lockscreen
+	then echo "something went wrong converting $TEMP_BG to $LOCK_BG"
+fi
+
+i3lock -i "$LOCK_BG"

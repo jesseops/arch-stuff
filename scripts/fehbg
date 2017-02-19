@@ -1,0 +1,4 @@
+#!/bin/bash
+DIR=/home/jesse/Pictures/.wallpaper
+
+feh --bg-scale `shuf -n1 -e $DIR/*`

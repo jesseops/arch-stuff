@@ -1,0 +1,48 @@
+# Lines configured by zsh-newuser-install
+DEFAULT_USER=jesse
+HISTFILE=~/.histfile
+HISTSIZE=5000
+SAVEHIST=10000
+setopt appendhistory autocd
+bindkey -e
+
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '/home/jesse/.zshrc'
+
+autoload -Uz compinit
+compinit
+zstyle ':completion:*' rehash true
+# End of lines added by compinstall
+
+setopt COMPLETE_ALIASES
+
+# Custom Aliases
+alias ls='ls --color=auto'
+alias ll='ls -lah --color=auto'
+alias wow='git status'
+alias such='git'
+
+PATH=$PATH:/home/jesse/bin
+
+# Antigen
+
+source /home/jesse/bin/antigen/antigen.zsh
+
+antigen use oh-my-zsh
+antigen bundle git
+antigen bundle pip
+antigen bundle command-not-found
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen theme pure
+antigen apply
+
+
+export WORKON_HOME=/home/jesse/.virtualenvs
+source /usr/bin/virtualenvwrapper.sh
+
+
+# GOLANG
+export GOPATH=~/.go
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$GOPATH/bin
